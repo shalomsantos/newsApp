@@ -19,4 +19,5 @@ class News extends Model
         'title',
         'desc_news',
     ];
+    public $timestamps = false;
 }

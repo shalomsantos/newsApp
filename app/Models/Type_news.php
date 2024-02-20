@@ -17,4 +17,6 @@ class Type_news extends Model
     protected $fillable = [
         'type_news_desc',
     ];
+
+    public $timestamps = false;
 }
