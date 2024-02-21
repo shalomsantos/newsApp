@@ -4,7 +4,6 @@ namespace App\Services;
 use App\Models\News;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
 
 class NewsService{
     public function RetornaTodosOsDados(): Collection{
@@ -15,15 +14,15 @@ class NewsService{
         return News::query()->count();
     }
 
-    public function BuscarPorNome(string $nome = null): Collection{
-        return News::query()->where([['nome', 'like', '%'.$nome.'%']])->get();
+    public function BuscarPorTitulo(string $titulo = null): Collection{
+        return News::query()->where([['title', 'like', '%'.$titulo.'%']])->get();
     }
 
     public function CriarNovoRegistro(array $attributes = []){
         return News::query()->create($attributes);
     }
 
-    public function BuscarPorId(int $id = null): Model | null{
+    public function BuscarPorId(int $id = null): model | null{
         return News::query()->find($id);
     }
 
@@ -31,8 +30,8 @@ class NewsService{
         return News::query()->where('id', $id)->delete();
     }
 
-    public function AtualizaRegistro(Request $request = null, int $id = null): bool{
-        return News::query()->where('id', $id)->update($request->except(['_token', '_method']));;
+    public function AtualizaRegistro(array $attributes = [], int $id = null): bool{
+        return News::query()->where('id', $id)->update($attributes);
     }
 }
 ?>

@@ -42,82 +42,106 @@ class NewsController extends Controller
      */
     public function store(Request $request){
         // recebe e entao armazena na variavel data para criar novo registro
-        if(empty($request['id_type_news'])){
+        
+        if(!$request['id_type_news']){
             return response()->json([
                 "message" => "O Id do tipo notícia deve ser enviado, use 1(Urgente) ou 2(Diário).",
             ]); 
-        }else if(empty($request['title'])){
+        }else if(!$request['title']){
             return response()->json([
                 "message" => "O titulo da notícia deve ser enviado.",
             ]); 
-        }else if(empty($request['desc_news'])){
+        }else if(!$request['desc_news']){
             return response()->json([
                 "message" => "A descrição da notícia deve ser enviada.",
             ]); 
         }
-        $newsCreate = $this->NewsService->CriarNovoRegistro([
-            'id_type_news' => $request['id_type_news'],
-            'title' => $request['title'],
-            'desc_news' => $request['desc_news'],
-        ]);
-
-        if($newsCreate){
-            return $newsCreate;
+        // CriarNovoRegistro precisa que nao haja noticia com o mesmo titulo no ar
+        if(!count($this->NewsService->BuscarPorTitulo($request['title']))){
+            $newsCreate = $this->NewsService->CriarNovoRegistro([
+                'id_type_news' => $request['id_type_news'],
+                'title' => $request['title'],
+                'desc_news' => $request['desc_news'],
+            ]);
+    
+            if(!$newsCreate){
+                return response()->json([
+                    "message" => "Erro ao inserir nova notícia.",
+                ]);  
+            }
+            return response()->json([
+                "message" => "Notícia sobre '". $newsCreate->title ."' criada com sucesso.",
+            ]);
+        }else{
+            return response()->json([
+                "message" => "Notícia já está no ar.",
+            ]);
         }
-
-        return response()->json([
-            "message" => "Erro ao criar produto.",
-        ]);   
     }
 
     /**
      * Exiba o recurso especificado.
      */
-    public function show(string $id){
-        // findOfFail já devolve o response 404 se for o caso
-        $news = News::findOrFail($id);
+    public function show(int $id){
+        // chamada a função na camada service para buscar por id
+        $news = $this->NewsService->BuscarPorId($id);
+
         if(!$news){
             return response()->json([
-                'message' => "Id não encontrado, certifique-se do número do resgistro.",
+                'message' => "Notícia não encontrada, certifique-se do número do resgistro.",
             ]);
+        }else{
+            //substituindo valor por dados, em colunas nao booleanas, cabe um subselect.
+            $news->id_type_news == 1? $news->id_type_news = 'Ugente' : $news->id_type_news = 'Diário';
+
+            return new NewsResource($news);
         }
-
-        return new NewsResource($news);
-    }
-
-    /**
-     * Mostre o formulário para editar o recurso especificado.
-     */
-    public function edit(string $id){
-        return response()->json([
-            'edit' => true,
-        ]);
     }
 
     /**
      * Atualize o recurso especificado no armazenamento.
      */
     public function update(Request $request, string $id){
-        return response()->json([
-            'update' => true,
-        ]);
+        $newsCreate = $this->NewsService->AtualizaRegistro([
+            'id_type_news' => $request['id_type_news'],
+            'title' => $request['title'],
+            'desc_news' => $request['desc_news'],
+        ], $id);
+
+        if($newsCreate){
+            return response()->json([
+                "message" => "Notícia atualizada com sucesso.",
+            ]); 
+        }else{
+            return response()->json([
+                "message" => "Erro ao atualizar notícia.",
+            ]); 
+        }
     }
 
     /**
      * Remova o recurso especificado do armazenamento.
      */
-    public function destroy(string $id)
+    public function destroy(int $id)
     {
-        $news = News::where('id', $id)->delete();
-
+        // busca noticia
+        $news = $this->NewsService->BuscarPorId($id);
+        // se existe
         if(!$news){
             return response()->json([
-                'message' => "Erro ao deletar notícia sobre ". $news->title .".",
+                'message' => "Não contém registro desta notícia.",
+            ]);
+        }
+        //valida sucesso
+        if($this->NewsService->ExcluirRegistro($id)){
+            return response()->json([
+                'message' => "Notícia deletada com sucesso.",
+            ]);
+        }else{
+            return response()->json([
+                'message' => "Erro ao deletar notícia.",
             ]);
         }
 
-        return response()->json([
-            'message' => "Notícia sobre ". $news->title ." deletada com sucesso.",
-        ]);
     }
 }
