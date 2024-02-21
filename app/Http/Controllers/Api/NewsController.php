@@ -41,8 +41,9 @@ class NewsController extends Controller
      * Armazene um recurso recém-criado no armazenamento.
      */
     public function store(Request $request){
+
         // recebe e entao armazena na variavel data para criar novo registro
-        
+        // exige todos os campos
         if(!$request['id_type_news']){
             return response()->json([
                 "message" => "O Id do tipo notícia deve ser enviado, use 1(Urgente) ou 2(Diário).",
@@ -102,11 +103,22 @@ class NewsController extends Controller
      * Atualize o recurso especificado no armazenamento.
      */
     public function update(Request $request, string $id){
-        $newsCreate = $this->NewsService->AtualizaRegistro([
-            'id_type_news' => $request['id_type_news'],
-            'title' => $request['title'],
-            'desc_news' => $request['desc_news'],
-        ], $id);
+
+        $newsCreate = $this->NewsService->AtualizaRegistro($request, $id);
+
+        if(!$request['id_type_news']){
+            return response()->json([
+                "message" => "O Id do tipo notícia deve ser enviado, use 1(Urgente) ou 2(Diário).",
+            ]); 
+        }else if(!$request['title']){
+            return response()->json([
+                "message" => "O titulo da notícia deve ser enviado.",
+            ]); 
+        }else if(!$request['desc_news']){
+            return response()->json([
+                "message" => "A descrição da notícia deve ser enviada.",
+            ]); 
+        }
 
         if($newsCreate){
             return response()->json([
@@ -114,7 +126,7 @@ class NewsController extends Controller
             ]); 
         }else{
             return response()->json([
-                "message" => "Erro ao atualizar notícia.",
+                "message" => "Atualizar notícia, exige alteração em algum campo.",
             ]); 
         }
     }

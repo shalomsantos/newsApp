@@ -2,6 +2,7 @@
 namespace App\Services;
 
 use App\Models\News;
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
@@ -30,8 +31,8 @@ class NewsService{
         return News::query()->where('id', $id)->delete();
     }
 
-    public function AtualizaRegistro(array $attributes = [], int $id = null): bool{
-        return News::query()->where('id', $id)->update($attributes);
+    public static function AtualizaRegistro(Request $request, int $id): bool{
+        return News::query()->where('id', $id)->update($request->except(['_token', '_method']));;
     }
 }
 ?>

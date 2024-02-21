@@ -28,8 +28,7 @@ cd newsApp/
 
 Crie o Arquivo .env
 ```sh
-cp .env 
-touch .env
+.env 
 ```
 
 Atualize as variaveis de conexão com o banco
@@ -75,6 +74,10 @@ popula alguns dados randon
 ```sh
 php artisan db:seed --class=NewsSeeder
 ```
+Rode o projeto
+```sh
+php artisan serve
+```
 Acesse o projeto
 [NewsApp](http://localhost:8000)
 
@@ -93,7 +96,7 @@ Dados esperados
 {
     "id_type_news" : number,
     "title" : strin,
-    "desc_news" : string,
+    "desc_news" : string
 }
 ```
 
@@ -106,7 +109,7 @@ Dados a atualizar
 {
     "id_type_news" : number,
     "title" : strin,
-    "desc_news" : string,
+    "desc_news" : string
 }
 ```
 
