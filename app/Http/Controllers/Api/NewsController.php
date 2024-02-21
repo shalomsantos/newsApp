@@ -103,9 +103,7 @@ class NewsController extends Controller
      * Atualize o recurso especificado no armazenamento.
      */
     public function update(Request $request, string $id){
-
-        $newsCreate = $this->NewsService->AtualizaRegistro($request, $id);
-
+        // exige todos os campos
         if(!$request['id_type_news']){
             return response()->json([
                 "message" => "O Id do tipo notícia deve ser enviado, use 1(Urgente) ou 2(Diário).",
@@ -120,13 +118,16 @@ class NewsController extends Controller
             ]); 
         }
 
+        $newsCreate = $this->NewsService->AtualizaRegistro($request, $id);
+
+        //valida ação de atualizar
         if($newsCreate){
             return response()->json([
                 "message" => "Notícia atualizada com sucesso.",
             ]); 
         }else{
             return response()->json([
-                "message" => "Atualizar notícia, exige alteração em algum campo.",
+                "message" => "Atualizar notícia exige alteração em algum campo.",
             ]); 
         }
     }
