@@ -4,8 +4,8 @@ Neste projeto configura-se uma api responsável por fazer um crud no banco local
 # Skills
 - Php (framework - laravel)
 - Mysql
-- serviços externos api
-- html
+- Serviços externos api
+- Html
 
 ## Autor
 - [@Shalomsantos](https://github.com/shalomsantos)
@@ -52,7 +52,7 @@ Gere a key do projeto Laravel
 php artisan key:generate
 ```
 
-## Estrutura de banco e tabela
+## Estrutura das tabelas
 | News||
 | - | - |
 | id       | INT     |
@@ -65,7 +65,7 @@ php artisan key:generate
 | id       | INT     |
 | type_news_desc | VARCHAR |
 
-## migrations e seeds
+## Migrations e seeds
 Migra o banco pre-pronto
 ```sh
 php artisan migrate
