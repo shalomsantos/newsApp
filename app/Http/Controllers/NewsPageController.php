@@ -16,6 +16,7 @@ class NewsPageController extends Controller
     public function index()
     {
         $news = $this->NewsService->RetornaTodosOsDados();
+
         return view('home', ['news' => $news]);
     }
 }

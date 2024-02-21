@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('news', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_type_news');
+            $table->unsignedBigInteger('id_type_news')->comment("Identificador/Chave estrangeira do tipo da noticia");
             $table->string('title');
             $table->string('desc_news');
 
