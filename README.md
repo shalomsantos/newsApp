@@ -81,7 +81,7 @@ php artisan serve
 Acesse o projeto
 [NewsApp](http://localhost:8000)
 
-# Responses do crud com a api
+# Api - urls crud
 Retorna todos os registros (GET)
 ```sh
 http://localhost:8000/api/news
