@@ -53,8 +53,8 @@
                             </div>
                         </div>
                     @endif
-                    <div class="col-3">
-                        <div class="card py-1">
+                    <div class="col-3 py-2">
+                        <div class="card h-100">
                             <div class="card-body d-flex flex-column">
                                 <p class="card-text">{{ $new->id_type_news }}</p>
                                 <h5 class="card-title">{{ $new->title }}</h5>
