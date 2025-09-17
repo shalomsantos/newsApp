@@ -7,9 +7,6 @@ Neste projeto configura-se uma api responsável por fazer um crud no banco local
 - Serviços externos api
 - Html
 
-## Autor
-- [@Shalomsantos](https://github.com/shalomsantos)
-
 ## Requisitos
 - composer.
 - xampp.
