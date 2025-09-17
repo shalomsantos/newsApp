@@ -19,19 +19,15 @@ class NewsController extends Controller
     /**
      * Exiba uma listagem do recurso.
      */
-    public function index(){
+    public function index()
+    {
         // Acessando dados e retornando utilizando padronização(http/resource) de retorno de dados
         $news = $this->NewsService->RetornaTodosOsDados();
 
-
         if($this->NewsService->ContadorDeRegistros() == 0){
             return response()->json([
-                "message" => "Base de dados não contém registro.",
+                "message" => "Base de dados nao contem registros.",
             ]);
-        }
-        //resolvendo consulta com operador ternário, mas um tipo que variável maior que dois valores cabe uma consulta normal
-        foreach($news as $item){
-            $item->id_type_news == 1? $item->id_type_news = 'Ugente' : $item->id_type_news = 'Diário';
         }
 
         return NewsResource::collection($news);
@@ -40,22 +36,23 @@ class NewsController extends Controller
     /**
      * Armazene um recurso recém-criado no armazenamento.
      */
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 
         // recebe e entao armazena na variavel data para criar novo registro
         // exige todos os campos
         if(!$request['id_type_news']){
             return response()->json([
                 "message" => "O Id do tipo notícia deve ser enviado, use 1(Urgente) ou 2(Diário).",
-            ]); 
+            ]);
         }else if(!$request['title']){
             return response()->json([
                 "message" => "O titulo da notícia deve ser enviado.",
-            ]); 
+            ]);
         }else if(!$request['desc_news']){
             return response()->json([
                 "message" => "A descrição da notícia deve ser enviada.",
-            ]); 
+            ]);
         }
         // CriarNovoRegistro precisa que nao haja noticia com o mesmo titulo no ar
         if(!count($this->NewsService->BuscarPorTitulo($request['title']))){
@@ -64,11 +61,11 @@ class NewsController extends Controller
                 'title' => $request['title'],
                 'desc_news' => $request['desc_news'],
             ]);
-    
+
             if(!$newsCreate){
                 return response()->json([
                     "message" => "Erro ao inserir nova notícia.",
-                ]);  
+                ]);
             }
             return response()->json([
                 "message" => "Notícia sobre '". $newsCreate->title ."' criada com sucesso.",
@@ -83,7 +80,8 @@ class NewsController extends Controller
     /**
      * Exiba o recurso especificado.
      */
-    public function show(int $id){
+    public function show(int $id)
+    {
         // chamada a função na camada service para buscar por id
         $news = $this->NewsService->BuscarPorId($id);
 
@@ -92,9 +90,6 @@ class NewsController extends Controller
                 'message' => "Notícia não encontrada, certifique-se do número do resgistro.",
             ]);
         }else{
-            //substituindo valor por dados, em colunas nao booleanas, cabe um subselect.
-            $news->id_type_news == 1? $news->id_type_news = 'Ugente' : $news->id_type_news = 'Diário';
-
             return new NewsResource($news);
         }
     }
@@ -102,20 +97,21 @@ class NewsController extends Controller
     /**
      * Atualize o recurso especificado no armazenamento.
      */
-    public function update(Request $request, string $id){
+    public function update(Request $request, string $id)
+    {
         // exige todos os campos
         if(!$request['id_type_news']){
             return response()->json([
                 "message" => "O Id do tipo notícia deve ser enviado, use 1(Urgente) ou 2(Diário).",
-            ]); 
+            ]);
         }else if(!$request['title']){
             return response()->json([
                 "message" => "O titulo da notícia deve ser enviado.",
-            ]); 
+            ]);
         }else if(!$request['desc_news']){
             return response()->json([
                 "message" => "A descrição da notícia deve ser enviada.",
-            ]); 
+            ]);
         }
 
         $newsCreate = $this->NewsService->AtualizaRegistro($request, $id);
@@ -124,11 +120,11 @@ class NewsController extends Controller
         if($newsCreate){
             return response()->json([
                 "message" => "Notícia atualizada com sucesso.",
-            ]); 
+            ]);
         }else{
             return response()->json([
                 "message" => "Atualizar notícia exige alteração em algum campo.",
-            ]); 
+            ]);
         }
     }
 

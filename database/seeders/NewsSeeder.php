@@ -11,7 +11,13 @@ class NewsSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\Type_news::factory(2)->create();
+        \App\Models\Type_news::create([
+            'type_news_desc' => 'Normal',
+        ]);
+
+        \App\Models\Type_news::create([
+            'type_news_desc' => 'Urgente',
+        ]);
 
         \App\Models\News::factory(2)->create();
     }

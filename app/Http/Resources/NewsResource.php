@@ -14,6 +14,11 @@ class NewsResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id'          => $this->id,
+            'type'        => $this->type ? $this->type->type_news_desc : null,
+            'title'       => $this->title,
+            'desc_news'   => $this->desc_news,
+        ];
     }
 }

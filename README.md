@@ -64,6 +64,9 @@ php artisan key:generate
 | id       | INT     |
 | type_news_desc | VARCHAR |
 
+## models
+![App Screenshot](./public/models.jpg)
+
 ## Migrations e seeds
 Migra o banco pre-pronto
 ```sh
