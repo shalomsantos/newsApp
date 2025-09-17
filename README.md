@@ -2,7 +2,7 @@
 Neste projeto configura-se uma api responsável por fazer um crud no banco local, bastando utilizar as url's a seguir e não esquecer de especificar a action correta para cada manipulação. Eu criei uma layer simples de service com fim de abstrair um pouco o conceito de patterns porém mantendo o projeto simples que coubesse dentro do prazo. Construi uma interface simples apenas para mostrar os dados um pouco mais desenhados.
 
 # Skills
-- Php (framework - laravel)
+- Laravel (PHP)
 - Mysql
 - Serviços externos api
 - Html
