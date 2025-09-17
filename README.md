@@ -4,7 +4,7 @@ Neste projeto configura-se uma api responsável por fazer um crud no banco local
 # Skills
 - Laravel (PHP)
 - Mysql
-- Serviços externos api
+- Composição api
 - Html
 
 ## Requisitos
