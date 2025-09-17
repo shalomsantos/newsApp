@@ -61,7 +61,7 @@ php artisan key:generate
 | id       | INT     |
 | type_news_desc | VARCHAR |
 
-## models
+## Models
 ![App Screenshot](./public/models.jpg)
 
 ## Migrations e seeds
